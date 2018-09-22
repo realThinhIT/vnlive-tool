@@ -68,27 +68,17 @@ var configuration = {
     //   username: "webrtc",
     //   credential: "turnserver"
     // }
-    { urls: ['stun:stun.l.google.com:19302'] },
+    { urls: 'stun:stun.l.google.com:19302' },
+    // {
+    //   urls: ['turn:13.250.13.83:3478?transport=udp'],
+    //   username: 'YzYNCouZM1mhqhmseWk6',
+    //   credential: 'YzYNCouZM1mhqhmseWk6'
+    // },
     {
-      urls: ['turn:13.250.13.83:3478?transport=udp'],
-      username: 'YzYNCouZM1mhqhmseWk6',
-      credential: 'YzYNCouZM1mhqhmseWk6'
-    },
-    {
-      urls: ['turn:43.239.221.117'],  // A TURN server
+      urls: 'turn:43.239.221.117',  // A TURN server
       username: 'webrtc',
       credential: 'turnserver'
-    },
-    {
-      urls: ['turn:turn.anyfirewall.com:443?transport=tcp'],
-      credential: 'webrtc',
-      username: 'webrtc'
-    },
-    {
-      urls: ['turn:192.158.29.39:3478?transport=tcp'],
-      credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-      username: '28224511:1379330808'
-    },
+    }
   ]
 };
 var pcPeers = {};
@@ -150,15 +140,11 @@ function join(roomID, password = '') {
 }
 
 function createPC(socketId, isOffer, fromId) {
-  var isNegotiating = false;
   var pc = new RTCPeerConnection(configuration);
   pcPeers[socketId] = pc;
   console.log('createPC socketId',socketId);
   console.log('createPC fromId',fromId);
-
   pc.onicecandidate = function (event) {
-    if (!event || !event.candidate) return;
-    
     console.log('onicecandidate', event);
     if (event.candidate) {
       socket.emit('exchange', JSON.stringify({'to': socketId, 'candidate': event.candidate, 'from': fromId }));
@@ -176,12 +162,6 @@ function createPC(socketId, isOffer, fromId) {
   }
 
   pc.onnegotiationneeded = function () {
-    if (isNegotiating) {
-      console.log("SKIP nested negotiations");
-      return;
-    }
-    isNegotiating = true;
-
     console.log('onnegotiationneeded');
     if (isOffer) {
       createOffer();
@@ -196,8 +176,6 @@ function createPC(socketId, isOffer, fromId) {
   // };
   pc.onsignalingstatechange = function(event) {
     console.log('onsignalingstatechange', event);
-
-    isNegotiating = (pc.signalingState != "stable");
   };
 
   pc.onaddstream = function (event) {
