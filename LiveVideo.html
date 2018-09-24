@@ -79,11 +79,6 @@ var configuration = {
     { urls: 'stun:stun3.l.google.com:19302' },
     { urls: 'stun:stun4.l.google.com:19302' },
     {
-      urls: 'turns:numb.viagenie.ca:3478',
-      username: 'thinhnd.ict%40gmail.com',
-      credential: '4t2z6z6u'
-    },
-    {
       'urls': 'turn:192.158.29.39:3478?transport=udp',
       'credential': 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
       'username': '28224511:1379330808'
@@ -102,7 +97,12 @@ var configuration = {
       urls: 'turn:43.239.221.117',  // A TURN server
       username: 'webrtc',
       credential: 'turnserver'
-    }
+    },
+    {
+      urls: 'turns:numb.viagenie.ca:3478',
+      username: 'thinhnd.ict%40gmail.com',
+      credential: '4t2z6z6u'
+    },
   ],
   iceCandidatePoolSize: 1
 };
