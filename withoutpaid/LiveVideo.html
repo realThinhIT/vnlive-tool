@@ -60,69 +60,49 @@ var twilioIceServers = [
 //   }
 // ]};
 // configuration.iceServers = twilioIceServers;
-// var configuration = {
-//   iceServers: [     // Information about ICE servers - Use your own!
-//     // {"url": "stun:stun.l.google.com:19302"},
-//     // {
-//     //   urls: "turn:" + "43.239.221.117",  // A TURN server
-//     //   username: "webrtc",
-//     //   credential: "turnserver"
-//     // }
-//     { urls: 'stun:stun.l.google.com:19302' },
-//     { urls: 'stun:stun.ekiga.net' },
-//     { urls: 'stun:stun.fwdnet.net' },
-//     { urls: 'stun:stun.ideasip.com' }, 
-//     { urls: 'stun:stun.iptel.org' },
-//     { urls: 'stun:stun.schlund.de' },
-//     { urls: 'stun:stun1.l.google.com:19302' },
-//     { urls: 'stun:stun2.l.google.com:19302' },
-//     { urls: 'stun:stun3.l.google.com:19302' },
-//     { urls: 'stun:stun4.l.google.com:19302' },
-//     {
-//       'urls': 'turn:192.158.29.39:3478?transport=udp',
-//       'credential': 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-//       'username': '28224511:1379330808'
-//     },
-//     {
-//       'urls': 'turn:192.158.29.39:3478?transport=tcp',
-//       'credential': 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-//       'username': '28224511:1379330808'
-//     },
-//     {
-//       urls: ['turn:13.250.13.83:3478?transport=udp'],
-//       username: 'YzYNCouZM1mhqhmseWk6',
-//       credential: 'YzYNCouZM1mhqhmseWk6'
-//     },
-//     {
-//       urls: 'turn:43.239.221.117',  // A TURN server
-//       username: 'webrtc',
-//       credential: 'turnserver'
-//     },
-//     {
-//       urls: 'turns:numb.viagenie.ca:3478',
-//       username: 'thinhnd.ict%40gmail.com',
-//       credential: '4t2z6z6u'
-//     },
-//   ],
-//   iceCandidatePoolSize: 1
-// };
 var configuration = {
-  iceServers: [
+  iceServers: [     // Information about ICE servers - Use your own!
+    // {"url": "stun:stun.l.google.com:19302"},
+    // {
+    //   urls: "turn:" + "43.239.221.117",  // A TURN server
+    //   username: "webrtc",
+    //   credential: "turnserver"
+    // }
     { urls: 'stun:stun.l.google.com:19302' },
+    { urls: 'stun:stun.ekiga.net' },
+    { urls: 'stun:stun.fwdnet.net' },
+    { urls: 'stun:stun.ideasip.com' }, 
+    { urls: 'stun:stun.iptel.org' },
+    { urls: 'stun:stun.schlund.de' },
     { urls: 'stun:stun1.l.google.com:19302' },
     { urls: 'stun:stun2.l.google.com:19302' },
     { urls: 'stun:stun3.l.google.com:19302' },
     { urls: 'stun:stun4.l.google.com:19302' },
-    { 
-      urls: 'turn:45.119.81.38:3478?transport=udp',
-      username: '5K6wGX9CChrJsGSuNraqRD',
-      credential: 'YmVmNDQ1MzEwMTBiNDA1NTUzYjUwOTc2'
+    {
+      'urls': 'turn:192.158.29.39:3478?transport=udp',
+      'credential': 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+      'username': '28224511:1379330808'
     },
-    { 
-      urls: 'turn:45.119.81.38:3478?transport=tcp',
-      username: '5K6wGX9CChrJsGSuNraqRD',
-      credential: 'YmVmNDQ1MzEwMTBiNDA1NTUzYjUwOTc2'
-    }
+    {
+      'urls': 'turn:192.158.29.39:3478?transport=tcp',
+      'credential': 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+      'username': '28224511:1379330808'
+    },
+    {
+      urls: ['turn:13.250.13.83:3478?transport=udp'],
+      username: 'YzYNCouZM1mhqhmseWk6',
+      credential: 'YzYNCouZM1mhqhmseWk6'
+    },
+    {
+      urls: 'turn:43.239.221.117',  // A TURN server
+      username: 'webrtc',
+      credential: 'turnserver'
+    },
+    {
+      urls: 'turns:numb.viagenie.ca:3478',
+      username: 'thinhnd.ict%40gmail.com',
+      credential: '4t2z6z6u'
+    },
   ],
   iceCandidatePoolSize: 1
 };

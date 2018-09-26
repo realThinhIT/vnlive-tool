@@ -18,11 +18,7 @@
   <input id="textRoomInput" >
   <button onclick="textRoomPress();">Send</button>
 </div>
-<video id="selfView" autoplay style="width: 600px; height: auto;" loop></video>
-
-<br /><br />
-<input type="file" accept="video/*" id="slcFile" />
-
+<video id="selfView" autoplay></video>
 <div id="remoteViewContainer"></div>
 <div id="roomIDContainer">
   <input id="roomID" value="" placeholder="RoomID">
@@ -32,7 +28,7 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
 <script type="text/javascript">
-var socket = io.connect('https://phanphoichung.com:20003', {transports: ['websocket']});
+var socket = io.connect('http://43.239.221.117:20003', {transports: ['websocket']});
 
 
 var RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection || window.msRTCPeerConnection;
@@ -60,71 +56,26 @@ var twilioIceServers = [
 //   }
 // ]};
 // configuration.iceServers = twilioIceServers;
-// var configuration = {
-//   iceServers: [     // Information about ICE servers - Use your own!
-//     // {"url": "stun:stun.l.google.com:19302"},
-//     // {
-//     //   urls: "turn:" + "43.239.221.117",  // A TURN server
-//     //   username: "webrtc",
-//     //   credential: "turnserver"
-//     // }
-//     { urls: 'stun:stun.l.google.com:19302' },
-//     { urls: 'stun:stun.ekiga.net' },
-//     { urls: 'stun:stun.fwdnet.net' },
-//     { urls: 'stun:stun.ideasip.com' }, 
-//     { urls: 'stun:stun.iptel.org' },
-//     { urls: 'stun:stun.schlund.de' },
-//     { urls: 'stun:stun1.l.google.com:19302' },
-//     { urls: 'stun:stun2.l.google.com:19302' },
-//     { urls: 'stun:stun3.l.google.com:19302' },
-//     { urls: 'stun:stun4.l.google.com:19302' },
-//     {
-//       'urls': 'turn:192.158.29.39:3478?transport=udp',
-//       'credential': 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-//       'username': '28224511:1379330808'
-//     },
-//     {
-//       'urls': 'turn:192.158.29.39:3478?transport=tcp',
-//       'credential': 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-//       'username': '28224511:1379330808'
-//     },
-//     {
-//       urls: ['turn:13.250.13.83:3478?transport=udp'],
-//       username: 'YzYNCouZM1mhqhmseWk6',
-//       credential: 'YzYNCouZM1mhqhmseWk6'
-//     },
-//     {
-//       urls: 'turn:43.239.221.117',  // A TURN server
-//       username: 'webrtc',
-//       credential: 'turnserver'
-//     },
-//     {
-//       urls: 'turns:numb.viagenie.ca:3478',
-//       username: 'thinhnd.ict%40gmail.com',
-//       credential: '4t2z6z6u'
-//     },
-//   ],
-//   iceCandidatePoolSize: 1
-// };
 var configuration = {
-  iceServers: [
+  iceServers: [     // Information about ICE servers - Use your own!
+    // {"url": "stun:stun.l.google.com:19302"},
+    // {
+    //   urls: "turn:" + "43.239.221.117",  // A TURN server
+    //   username: "webrtc",
+    //   credential: "turnserver"
+    // }
     { urls: 'stun:stun.l.google.com:19302' },
-    { urls: 'stun:stun1.l.google.com:19302' },
-    { urls: 'stun:stun2.l.google.com:19302' },
-    { urls: 'stun:stun3.l.google.com:19302' },
-    { urls: 'stun:stun4.l.google.com:19302' },
-    { 
-      urls: 'turn:45.119.81.38:3478?transport=udp',
-      username: '5K6wGX9CChrJsGSuNraqRD',
-      credential: 'YmVmNDQ1MzEwMTBiNDA1NTUzYjUwOTc2'
+    {
+      urls: ['turn:13.250.13.83:3478?transport=udp'],
+      username: 'YzYNCouZM1mhqhmseWk6',
+      credential: 'YzYNCouZM1mhqhmseWk6'
     },
-    { 
-      urls: 'turn:45.119.81.38:3478?transport=tcp',
-      username: '5K6wGX9CChrJsGSuNraqRD',
-      credential: 'YmVmNDQ1MzEwMTBiNDA1NTUzYjUwOTc2'
+    {
+      urls: 'turn:' + '43.239.221.117',  // A TURN server
+      username: 'webrtc',
+      credential: 'turnserver'
     }
-  ],
-  iceCandidatePoolSize: 1
+  ]
 };
 var pcPeers = {};
 var selfView = document.getElementById("selfView");
@@ -132,25 +83,21 @@ var remoteViewContainer = document.getElementById("remoteViewContainer");
 var localStream;
 
 function getLocalStream() {
-  // navigator.getUserMedia({ 
-  //   "audio": false, 
-  //   "video": {
-  //     "mandatory": {
-  //      "minWidth": 640,
-  //      "minHeight": 360,
-  //      'minFrameRate': 30,
-  //     },
-  //     "optional": []
-  //   } 
-  // }, function (stream) {
-  //   localStream = stream;
-  //   selfView.src = URL.createObjectURL(stream);
-  //   selfView.muted = true;
-  // }, logError);
-
-  var captureStream = selfView.captureStream();
-  localStream = captureStream;
-  selfView.play();
+  navigator.getUserMedia({ 
+    "audio": false, 
+    "video": {
+      "mandatory": {
+       "minWidth": 640,
+       "minHeight": 360,
+       'minFrameRate': 30,
+      },
+      "optional": []
+    } 
+  }, function (stream) {
+    localStream = stream;
+    selfView.src = URL.createObjectURL(stream);
+    selfView.muted = true;
+  }, logError);
 }
 
 function join(roomID, password = '') {
@@ -326,27 +273,130 @@ function textRoomPress() {
 
 </script>
 
+<div class="select">
+  <label for="audioSource">Audio input source: </label><select id="audioSource"></select>
+</div>
+
+<div class="select">
+  <label for="audioOutput">Audio output destination: </label><select id="audioOutput"></select>
+</div>
+
+<div class="select">
+  <label for="videoSource">Video source: </label><select id="videoSource"></select>
+</div>
+
 <script>
-var playSelectedFile = function (event) {
-  var file = this.files[0]
-  var type = file.type
-  var videoNode = document.querySelector('video')
-  var canPlay = videoNode.canPlayType(type)
-  if (canPlay === '') canPlay = 'no'
-  var message = 'Can play type "' + type + '": ' + canPlay
-  var isError = canPlay === 'no'
+/*
+*  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
+*
+*  Use of this source code is governed by a BSD-style license
+*  that can be found in the LICENSE file in the root of the source
+*  tree.
+*/
 
-  if (isError) {
-    return
+'use strict';
+
+const videoElement = document.querySelector('video');
+const audioInputSelect = document.querySelector('select#audioSource');
+const audioOutputSelect = document.querySelector('select#audioOutput');
+const videoSelect = document.querySelector('select#videoSource');
+const selectors = [audioInputSelect, audioOutputSelect, videoSelect];
+
+audioOutputSelect.disabled = !('sinkId' in HTMLMediaElement.prototype);
+
+function gotDevices(deviceInfos) {
+  // Handles being called several times to update labels. Preserve values.
+  const values = selectors.map(select => select.value);
+  selectors.forEach(select => {
+    while (select.firstChild) {
+      select.removeChild(select.firstChild);
+    }
+  });
+  for (let i = 0; i !== deviceInfos.length; ++i) {
+    const deviceInfo = deviceInfos[i];
+    const option = document.createElement('option');
+    option.value = deviceInfo.deviceId;
+    if (deviceInfo.kind === 'audioinput') {
+      option.text = deviceInfo.label || `microphone ${audioInputSelect.length + 1}`;
+      audioInputSelect.appendChild(option);
+    } else if (deviceInfo.kind === 'audiooutput') {
+      option.text = deviceInfo.label || `speaker ${audioOutputSelect.length + 1}`;
+      audioOutputSelect.appendChild(option);
+    } else if (deviceInfo.kind === 'videoinput') {
+      option.text = deviceInfo.label || `camera ${videoSelect.length + 1}`;
+      videoSelect.appendChild(option);
+    } else {
+      console.log('Some other kind of source/device: ', deviceInfo);
+    }
   }
-
-  var fileURL = URL.createObjectURL(file)
-  videoNode.src = fileURL
-
-  getLocalStream();
+  selectors.forEach((select, selectorIndex) => {
+    if (Array.prototype.slice.call(select.childNodes).some(n => n.value === values[selectorIndex])) {
+      select.value = values[selectorIndex];
+    }
+  });
 }
-var inputNode = document.querySelector('#slcFile')
-inputNode.addEventListener('change', playSelectedFile, false)
+
+navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
+
+// Attach audio output device to video element using device/sink ID.
+function attachSinkId(element, sinkId) {
+  if (typeof element.sinkId !== 'undefined') {
+    element.setSinkId(sinkId)
+      .then(() => {
+        console.log(`Success, audio output device attached: ${sinkId}`);
+      })
+      .catch(error => {
+        let errorMessage = error;
+        if (error.name === 'SecurityError') {
+          errorMessage = `You need to use HTTPS for selecting audio output device: ${error}`;
+        }
+        console.error(errorMessage);
+        // Jump back to first output device in the list as it's the default.
+        audioOutputSelect.selectedIndex = 0;
+      });
+  } else {
+    console.warn('Browser does not support output device selection.');
+  }
+}
+
+function changeAudioDestination() {
+  const audioDestination = audioOutputSelect.value;
+  attachSinkId(videoElement, audioDestination);
+}
+
+function gotStream(stream) {
+  window.stream = stream; // make stream available to console
+  localStream = stream;
+  videoElement.srcObject = stream;
+  // Refresh button list in case labels have become available
+  return navigator.mediaDevices.enumerateDevices();
+}
+
+function handleError(error) {
+  console.log('navigator.getUserMedia error: ', error);
+}
+
+function start() {
+  if (window.stream) {
+    window.stream.getTracks().forEach(track => {
+      track.stop();
+    });
+  }
+  const audioSource = audioInputSelect.value;
+  const videoSource = videoSelect.value;
+  const constraints = {
+    audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
+    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+  };
+  navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices).catch(handleError);
+}
+
+audioInputSelect.onchange = start;
+audioOutputSelect.onchange = changeAudioDestination;
+
+videoSelect.onchange = start;
+
+start();
 </script>
 
 </html>
